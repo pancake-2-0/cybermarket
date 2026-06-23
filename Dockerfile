@@ -9,6 +9,14 @@ RUN npm run build
 FROM php:8.3-apache
 WORKDIR /app
 
+# Installa dipendenze di sistema
+RUN apt-get update && apt-get install -y \
+    unzip \
+    zip \
+    git \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
 # Installa estensioni PHP necessarie
 RUN docker-php-ext-install pdo pdo_mysql exif
 
@@ -22,7 +30,7 @@ COPY . .
 COPY --from=node_builder /build/public/build ./public/build
 
 # Installa dipendenze PHP
-RUN composer install --no-dev --optimize-autoloader --no-interaction --ignore-platform-req=php --ignore-platform-req=ext-exif
+RUN composer install --no-dev --optimize-autoloader --no-interaction --ignore-platform-req=php --ignore-platform-req=ext-exif --no-cache
 
 # Configura Apache
 RUN a2enmod rewrite
