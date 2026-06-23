@@ -33,6 +33,7 @@ RUN a2enmod rewrite
 RUN echo 'ServerName localhost' >> /etc/apache2/apache2.conf
 ENV APACHE_DOCUMENT_ROOT=/app/public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
+RUN printf '<Directory "%s">\n    Options Indexes FollowSymLinks\n    AllowOverride All\n    Require all granted\n</Directory>\n' "$APACHE_DOCUMENT_ROOT" >> /etc/apache2/sites-available/000-default.conf
 
 # Permessi
 RUN chown -R www-data:www-data /app/storage /app/bootstrap/cache
