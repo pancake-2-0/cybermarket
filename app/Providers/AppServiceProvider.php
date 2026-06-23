@@ -24,7 +24,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        if ($this->app->environment('production')) {
+        if (
+            $this->app->environment('production')
+            || filled(env('RAILWAY_ENVIRONMENT_NAME'))
+        ) {
             URL::forceScheme('https');
         }
 
