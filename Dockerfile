@@ -1,3 +1,15 @@
+FROM node:22-bookworm-slim AS frontend
+
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+RUN npm ci
+
+COPY vite.config.js ./
+COPY resources ./resources
+COPY public ./public
+RUN npm run build
+
 FROM php:8.4-apache
 
 WORKDIR /app
@@ -18,6 +30,9 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Copia il progetto
 COPY . .
+
+# Copia gli asset frontend compilati nello stage Node
+COPY --from=frontend /app/public/build ./public/build
 
 # Crea le cartelle richieste da Laravel e imposta permessi
 RUN mkdir -p bootstrap/cache storage/framework/sessions storage/framework/views storage/framework/testing storage/logs \
