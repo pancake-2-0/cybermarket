@@ -19,8 +19,13 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Copia il progetto
 COPY . .
 
+# Crea le cartelle richieste da Laravel e imposta permessi
+RUN mkdir -p bootstrap/cache storage/framework/sessions storage/framework/views storage/framework/testing storage/logs \
+    && chown -R www-data:www-data storage bootstrap/cache \
+    && chmod -R 775 storage bootstrap/cache
+
 # Installa dipendenze PHP
-RUN composer install --no-dev --optimize-autoloader --no-interaction
+RUN COMPOSER_ALLOW_SUPERUSER=1 composer install --no-dev --optimize-autoloader --no-interaction
 
 # Configura Apache
 RUN a2enmod rewrite
