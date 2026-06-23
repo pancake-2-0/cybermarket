@@ -28,10 +28,9 @@ RUN mkdir -p bootstrap/cache storage/framework/sessions storage/framework/views 
 RUN COMPOSER_ALLOW_SUPERUSER=1 composer install --no-dev --optimize-autoloader --no-interaction
 
 # Configura Apache
-RUN rm -f /etc/apache2/mods-enabled/mpm_*.load /etc/apache2/mods-enabled/mpm_*.conf || true \
-    && echo "LoadModule mpm_prefork_module modules/mod_mpm_prefork.so" > /etc/apache2/mods-enabled/mpm_prefork.load
-
-RUN a2enmod rewrite
+RUN a2dismod mpm_event mpm_worker || true \
+    && rm -f /etc/apache2/mods-enabled/mpm_event.load /etc/apache2/mods-enabled/mpm_event.conf /etc/apache2/mods-enabled/mpm_worker.load /etc/apache2/mods-enabled/mpm_worker.conf || true
+RUN a2enmod mpm_prefork rewrite
 RUN echo 'ServerName localhost' >> /etc/apache2/apache2.conf
 ENV APACHE_DOCUMENT_ROOT=/app/public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
