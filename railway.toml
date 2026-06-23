@@ -1,2 +1,5 @@
 [build]
-builder = "dockerfile"
+builder = "DOCKERFILE"
+
+[deploy]
+preDeployCommand = "php artisan config:clear && php artisan migrate --force"
