@@ -22,6 +22,9 @@ php artisan config:clear
 echo "Running database migrations..."
 php artisan migrate --force
 
+echo "Seeding database..."
+php artisan db:seed --force
+
 # Disable all conflicting Apache MPM modules
 # Railway can sometimes load extra MPMs at startup, so force only prefork.
 a2dismod mpm_event 2>/dev/null || true

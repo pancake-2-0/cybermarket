@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         foreach ($this->categories as $category) {
-            Category::create([
+            Category::firstOrCreate([
                 'name' => $category
             ]);
         }
