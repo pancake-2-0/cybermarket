@@ -28,12 +28,14 @@ RUN mkdir -p bootstrap/cache storage/framework/sessions storage/framework/views 
 RUN COMPOSER_ALLOW_SUPERUSER=1 composer install --no-dev --optimize-autoloader --no-interaction
 
 # Configura Apache
-RUN a2dismod mpm_event mpm_worker || true
-RUN a2enmod rewrite
+RUN a2dismod mpm_event mpm_worker || true \
+    && rm -f /etc/apache2/mods-enabled/mpm_event.load /etc/apache2/mods-enabled/mpm_event.conf /etc/apache2/mods-enabled/mpm_worker.load /etc/apache2/mods-enabled/mpm_worker.conf || true
+RUN a2enmod mpm_prefork rewrite
 RUN echo 'ServerName localhost' >> /etc/apache2/apache2.conf
 ENV APACHE_DOCUMENT_ROOT=/app/public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
 RUN printf '<Directory "%s">\n    Options Indexes FollowSymLinks\n    AllowOverride All\n    Require all granted\n</Directory>\n' "$APACHE_DOCUMENT_ROOT" >> /etc/apache2/sites-available/000-default.conf
+RUN apachectl -t
 
 # Permessi
 RUN chown -R www-data:www-data /app/storage /app/bootstrap/cache
