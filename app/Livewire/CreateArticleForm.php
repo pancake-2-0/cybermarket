@@ -83,7 +83,9 @@ if (count($this->images) > 0) {
 
     public function render()
     {
-        return view('livewire.create-article-form');
+        return view('livewire.create-article-form', [
+            'categories' => Category::orderBy('name')->get(),
+        ]);
     }
 
     public function updatedTemporaryImages()

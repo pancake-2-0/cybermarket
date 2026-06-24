@@ -427,10 +427,13 @@ body {
 }
 
 .hero-tags-minimal span {
+    display: inline-flex;
     padding: 0.3rem 0.9rem;
     border: 1px solid rgba(0, 245, 255, 0.2);
     border-radius: 999px;
     background: rgba(255, 255, 255, 0.03);
+    line-height: 1.2;
+    white-space: nowrap;
 }
 
 /* BUTTON TORNA SU */
@@ -1742,6 +1745,27 @@ body {
         padding: 1.5rem 1rem;
     }
 
+    .hero-tags-minimal {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.45rem 0.65rem;
+        padding-left: 1rem !important;
+        padding-right: 1rem;
+    }
+
+    .heroTitle2 {
+        font-size: clamp(2rem, 9vw, 3.25rem);
+        letter-spacing: 0.04em;
+        line-height: 1.18;
+        overflow-wrap: anywhere;
+        word-break: normal;
+    }
+
+    .categoryHero .heroTitle2 {
+        max-width: 100%;
+    }
+
     .footerBottom {
         text-align: center;
     }
@@ -1765,5 +1789,55 @@ body {
 
     .navCustom .navbar-brand {
         font-size: 16px !important;
+    }
+
+    .hero-cyber-section {
+        min-height: 640px;
+        height: auto;
+        padding: 4rem 0 3rem;
+        align-items: flex-start;
+    }
+
+    .hero-main-title {
+        font-size: clamp(2.45rem, 16vw, 3.4rem);
+        line-height: 1.06;
+        overflow-wrap: anywhere;
+    }
+
+    .hero-kicker,
+    .hero-main-title,
+    .hero-slogan-container,
+    .hero-cta-group,
+    .hero-tags-minimal {
+        padding-left: 1rem !important;
+    }
+
+    .hero-slogan-container {
+        padding-right: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .hero-slogan-lead {
+        font-size: clamp(1.35rem, 7vw, 1.8rem);
+    }
+
+    .hero-tags-minimal span {
+        font-size: 0.95rem;
+    }
+
+    .articleIndexHero,
+    .categoryHero {
+        border-radius: 14px;
+        overflow: hidden;
+    }
+
+    .categoryHero .heroTitle2 {
+        font-size: clamp(1.75rem, 11vw, 2.65rem);
+        letter-spacing: 0.02em;
+    }
+
+    .categoryName {
+        display: inline;
+        overflow-wrap: anywhere;
     }
 }
